@@ -1,11 +1,11 @@
 /*
 Hug tree
-
-
+its a heart shape spunge that is painted like a heart nd will be hang on trees
+Using Attiny 85
  */
 
-#define PULSE_PIN 3
-#define HEART_PIN A2
+#define PULSE_PIN 0 //3 
+#define HEART_PIN 2 // 2
 #define DEBUG 0
 
 int delay_time=1000;

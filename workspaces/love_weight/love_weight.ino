@@ -13,8 +13,8 @@ int sensor_pins[] = {1,2}; // analog
 int button_pins[] = {2,3}; // digital
 int num_buttons = 2;
 Adafruit_NeoPixel strips[2] = new Adafruit_NeoPixel[2];
-int[2] current = int[2];
-int[2] color_pos=  int[2];
+int current[] = {0,0};
+int color_pos[]=  {0,0};
 
 // int myPins[] = {2, 4, 8, 3, 6};
 //  int mySensVals[6] = {2, 4, -8, 3, 2};
@@ -23,10 +23,10 @@ int y,sensorValue;// tmp parameter to help map the data
 
 
 uint32_t color_map[] = {
-  strip.Color(128, 0, 128),   // yellow
-  strip.Color(0, 0, 255),     // green
+  strips[0].Color(128, 0, 128),   // yellow
+  strips[0].Color(0, 0, 255),     // green
   strips[0].Color(255, 255, 0),   // Purple
-  strip.Color(255, 0, 0)      // Red
+  strips[0].Color(255, 0, 0)      // Red
 };
 
 // the setup routine runs once when you press reset:
