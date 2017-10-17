@@ -4,12 +4,13 @@ its a heart shape spunge that is painted like a heart nd will be hang on trees
 Using Attiny 85
  */
 
-#define PULSE_PIN 0 //3 
+#define PULSE_PIN 3 // 0 //3 
 #define HEART_PIN 2 // 2
 #define DEBUG 0
 
 int delay_time=1000;
 int sensorValue=0;
+
 void setup()  { 
   // declare pin 9 to be an output:
   pinMode(PULSE_PIN, OUTPUT);
@@ -24,7 +25,7 @@ void loop()  {
   // read presure on heart
   sensorValue = analogRead(HEART_PIN);
   if(DEBUG) {
-     // Serial.println(sensorValue);
+      Serial.println(sensorValue);
   }
   delay_time = map(sensorValue, 1, 1000, 1000, 0);
 
