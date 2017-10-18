@@ -2,22 +2,20 @@
 #ifdef __AVR__
   #include <avr/power.h>
 #endif
+
 #define PIN_BUTTON1 2
 #define PIN_BUTTON1 3
 
-// debug flaf
+// debug flag
 #define DEBUG_SERIAL=0;
 
-int num_of_leds = 60;
+int num_of_leds = 200;
 int sensor_pins[] = {1,2}; // analog
 int button_pins[] = {2,3}; // digital
 int num_buttons = 2;
 Adafruit_NeoPixel strips[2] = new Adafruit_NeoPixel[2];
 int current[] = {0,0};
 int color_pos[]=  {0,0};
-
-// int myPins[] = {2, 4, 8, 3, 6};
-//  int mySensVals[6] = {2, 4, -8, 3, 2};
 
 int y,sensorValue;// tmp parameter to help map the data
 
@@ -46,6 +44,16 @@ void setup() {
 
 // the loop routine runs over and over again forever:
 void loop() {
+  
+  // check if byte available on the software serial port
+  if (gtSerial.available()) {
+    // get the byte from the software serial port
+    rx_byte = gtSerial.read();
+    if(DEBUG_SERIAL) {
+      Serial.write(rx_byte);
+    }
+  }
+  
    for(int i=0;i<num_buttons;i++) {
     // read the input on analog pin 0:
     sensorValue = analogRead(sensor_pins[i]);
@@ -53,14 +61,6 @@ void loop() {
     y = map(sensorValue, 1, 600, 0, num_of_leds);
     color_pos[i] = map(y, 0, num_of_leds, 0, 2);
   
-    if(DEBUG_SERIAL) {
-      Serial.print(sensorValue);
-      Serial.print(" - ");
-      Serial.print(y);
-      Serial.print(" - ");
-      Serial.print(color_pos);
-      Serial.println();
-    }
     
     if(y>current[i] && current[i]<num_of_leds) {
       current[i]++;
@@ -75,6 +75,8 @@ void loop() {
       delay(1000);
     }
   }
+
+  
   delay(1);        // delay in between reads for stability
 }
 

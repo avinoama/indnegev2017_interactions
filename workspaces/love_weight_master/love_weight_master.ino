@@ -5,7 +5,6 @@
 #endif
 
 SoftwareSerial sondSerial(5, 6);
-SoftwareSerial sondSerial(5, 6);
 
 
 // debug flaf
@@ -27,7 +26,9 @@ int y,sensorValue;// tmp parameter to help map the data
 // the setup routine runs once when you press reset:
 void setup() {
   // initialize serial communication at 9600 bits per second:
-  Serial.begin(9600);
+  if(DEBUG_SERIAL) {
+    Serial.begin(9600);
+  }
   sensorValue=y=0;
 }
 
@@ -49,6 +50,7 @@ void loop() {
           // great success  
           
           // send great success to heart module
+          is_game_started=false;
         }
      
 
@@ -58,7 +60,7 @@ void loop() {
     
     if(DEBUG_SERIAL) {
       Serial.println(sensorValue);
-//      delay(1000);
+      delay(1000);
     }
   
   delay(2);        // delay in between reads for stability

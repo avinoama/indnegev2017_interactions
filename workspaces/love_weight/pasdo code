@@ -1,0 +1,28 @@
+
+
+
+
+
+Master 
+# asyncronize
+
+// check presure on sesnors 
+// if bigger then initial threshould 
+// 	play sound - welcome
+// 	Send heart mode to "lisining"
+//      m:111:22
+//      wait 3 sec
+//	play gong
+// 	anlize response
+//		if got to upper threshould togher
+//			play victory sound
+//			
+//		
+
+// when 
+
+
+Slave
+
+
+
