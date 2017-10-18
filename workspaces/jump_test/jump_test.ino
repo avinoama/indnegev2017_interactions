@@ -46,10 +46,12 @@ void setup() {
   if(DEBUG_SERIAL) {
     Serial.begin(9600);
   }
-   soundSerial.begin(9600);
-//   sendCo/mmand(CMD_SEL_DEV, DEV_TF);//select the TF card  
+//   soundSerial.begin(9600);
+//   sendCommand(CMD_SEL_DEV, DEV_TF);//select the TF card  
   
-   heartSerial.begin(9600);
+  heartSerial.begin(9600);
+  delay(20);
+  heartSerial.write("ooo\n");
   sensorValue=y=0;
   delay(1000);
 }
@@ -76,58 +78,24 @@ void loop() {
       last_values[i] = sensor_values[i]; 
     }
     
-          sensor_values[0];
-          sensor_values[1];
-           
-      
-    
     if(DEBUG_SERIAL) {
             Serial.print(sensor_values[0]);Serial.print(" - ");Serial.print(sensor_values[1]);Serial.println();
     }
 
     
-    if(is_game_started==true) {
-      Serial.print("game started");
       sensor_value_string  = getSensorValues();
       char s[7];
       sensor_value_string.toCharArray(s, 7);
-      
-      
-       // winning condition
-       if(sensor_values[0]> thresholds[4] && sensor_values[2]>thresholds[4] ) {
-          // great success  
-           heartSerial.write('f');
-           sendCommand(CMD_PLAY_W_VOL, 0X1E05); // Victory
-           delay(5000);
-           heartSerial.write('r');
-           // send great success to heart module
-           is_game_started=false;
-           hey_hey_current_round=0;
-        } else  {
+      heartSerial.write(s);
+          
           if(DEBUG_SERIAL) {
            Serial.println(sensor_value_string);
           }
-          heartSerial.write(s);
-          
-//          sendCo/mmand(CMD_PLAY_W_VOL, 0X1E04); // Ha ha try again
-//       /   delay(10000);
-          sendCommand(CMD_PLAY_W_VOL, 0X1E03); // Gong
-
-        }
-      
-    } else {
-      if(hey_hey_current_round>=hey_hey_in_x_rounds) {
-        hey_hey_current_round=0;
-        sendCommand(CMD_PLAY_W_VOL, 0X1E01); // Hey Hey
-      }    
-      hey_hey_current_round++;
-    }
-    
     
     if(DEBUG_SERIAL) {
       delay(100);
     }
-
+//
 
 
   

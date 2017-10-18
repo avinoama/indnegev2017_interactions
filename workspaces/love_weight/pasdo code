@@ -10,13 +10,13 @@ Master
 // if bigger then initial threshould 
 // 	play sound - welcome
 // 	Send heart mode to "lisining"
-//      l:111:22
+//      111:022
 //      wait 3 sec
 //	play gong
 // 	anlize response
 //		if got to upper threshould togher
 //			play victory sound
-//			send heary victory "flash" 'f' 	
+//			send heary victory "flash" 'f' - blink 20 sec 	
 //		else
 //			Try again...
 //			

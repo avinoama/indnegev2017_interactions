@@ -1,83 +1,67 @@
 #include <Adafruit_NeoPixel.h>
 #ifdef __AVR__
-  #include <avr/power.h>
+#include <avr/power.h>
 #endif
 
-#define PIN_BUTTON1 2
-#define PIN_BUTTON1 3
+#define LED1_PIN 2
+#define LED2_PIN 3
 
 // debug flag
 #define DEBUG_SERIAL=0;
 
-int num_of_leds = 200;
-int sensor_pins[] = {1,2}; // analog
-int button_pins[] = {2,3}; // digital
-int num_buttons = 2;
-Adafruit_NeoPixel strips[2] = new Adafruit_NeoPixel[2];
-int current[] = {0,0};
-int color_pos[]=  {0,0};
+int num_of_leds = 14;
+int led_pins[] = {2, 3}; // digital
+int num_strips = 2;
 
-int y,sensorValue;// tmp parameter to help map the data
-
-
-uint32_t color_map[] = {
-  strips[0].Color(128, 0, 128),   // yellow
-  strips[0].Color(0, 0, 255),     // green
-  strips[0].Color(255, 255, 0),   // Purple
-  strips[0].Color(255, 0, 0)      // Red
+Adafruit_NeoPixel strips[2] = {
+  Adafruit_NeoPixel(num_of_leds, LED1_PIN, NEO_GRB + NEO_KHZ800),
+  Adafruit_NeoPixel(num_of_leds, LED2_PIN, NEO_GRB + NEO_KHZ800)
 };
+int strip_curent_positions[] = {0, 0};
+int strip_goto_positions[] = {0, 0};
+int y, sensorValue; // tmp parameter to help map the data
+int led_s1;
 
 // the setup routine runs once when you press reset:
 void setup() {
   // initialize serial communication at 9600 bits per second:
   Serial.begin(9600);
-
-  for(int i=0;i<num_buttons;i++) {
-    strips[i] = Adafruit_NeoPixel(num_of_leds, button_pins[i], NEO_GRB + NEO_KHZ800);  
-    
+  for (int i = 0; i < num_strips; i++) {
     strips[i].begin();
     strips[i].show();
-    color_pos[i] = current[i] = 0;
   }
-  sensorValue=y=0;
+  sensorValue = y = 0;
 }
 
 // the loop routine runs over and over again forever:
 void loop() {
-  
-  // check if byte available on the software serial port
-  if (gtSerial.available()) {
-    // get the byte from the software serial port
-    rx_byte = gtSerial.read();
-    if(DEBUG_SERIAL) {
-      Serial.write(rx_byte);
-    }
+  if ( Serial.available()>=4) {
+     led_s1 = Serial.parseInt(); 
+    //led_s1 = Serial.read();
   }
-  
-   for(int i=0;i<num_buttons;i++) {
-    // read the input on analog pin 0:
-    sensorValue = analogRead(sensor_pins[i]);
-    // print out the value you read:
-    y = map(sensorValue, 1, 600, 0, num_of_leds);
-    color_pos[i] = map(y, 0, num_of_leds, 0, 2);
-  
-    
-    if(y>current[i] && current[i]<num_of_leds) {
-      current[i]++;
-      strips[i].setPixelColor(current[i], color_map[color_pos]);
-    } else if (y<current[i] && current[i]>=0) {
-      strips[i].setPixelColor(current[i], 0);
-      current[i]--;
-    }
-    strips[i].show();
-    
-    if(DEBUG_SERIAL) {
-      delay(1000);
-    }
-  }
-
-  
-  delay(1);        // delay in between reads for stability
+  Serial.println(led_s1);
+  ledsOn(led_s1, 10); // gets 2 values for "how many leds" per each strip
 }
 
+void ledsOn(uint32_t score1, uint32_t score2) {
+  uint32_t i;
+  strip_goto_positions[0] = score1;
+  strip_goto_positions[1] = score2;
+  for (i = 0; i < num_strips; i++) {
+    strip_curent_positions[i];
+    strip_goto_positions[i];
+    if (strip_curent_positions[i] < strip_goto_positions[i]) {
+      strips[i].setPixelColor(strip_curent_positions[i], strips[i].Color(255, 0, 0));
+      strips[i].show();
+      delay(20);
+      strip_curent_positions[i]++;
+    }
+    else if (strip_curent_positions[i] > strip_goto_positions[i]) {
+      strips[i].setPixelColor(strip_curent_positions[i], strips[i].Color(0, 0, 0));
+      strips[i].show();
+      delay(20);
+      strip_curent_positions[i]--;
+    }
+  }
+}
 
