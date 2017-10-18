@@ -10,19 +10,28 @@ Master
 // if bigger then initial threshould 
 // 	play sound - welcome
 // 	Send heart mode to "lisining"
-//      m:111:22
+//      l:111:22
 //      wait 3 sec
 //	play gong
 // 	anlize response
 //		if got to upper threshould togher
 //			play victory sound
+//			send heary victory "flash" 'f' 	
+//		else
+//			Try again...
 //			
 //		
 
-// when 
-
-
 Slave
+
+
+// Lisiting to serial request
+// state machine read incoming input and deside what stat are we on the logical evaulation should always considre last step and if changed 
+// if state is idle show idel heart
+// if game start 
+//	Close all lights and wait for input data
+// if flash
+//	Show flash move to idle
 
 
 
