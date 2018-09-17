@@ -59,9 +59,12 @@ void loop() {
     if(DEBUG) {
       Serial.println("Fan");
     }   
+    delay(5000);
    
     digitalWrite(FAN_PIN, LOW);  
+    
     delay(1000);
+    
     colorWipe(strip.Color(255, 0, 0), 10); // Red
     
     delay(1000);
@@ -72,7 +75,7 @@ void loop() {
     digitalWrite(SPRINKLER_PIN, LOW);  
     
     
-    for(int i=0;i<5;i++) {
+    for(int i=0;i<3;i++) {
       colorWipe(strip.Color(0, 255, 0), 10); // Green
       colorWipe(strip.Color(0, 0, 255), 10); // Blue
       colorWipe(strip.Color(204, 51, 255), 10); // purple
@@ -81,10 +84,9 @@ void loop() {
       colorWipe(strip.Color(255, 153, 0), 10); // orenge
     
     }
+    
     digitalWrite(SPRINKLER_PIN, HIGH);
 
-
-    
     for(int i=0;i<10;i++) {
       colorWipe(strip.Color(0, 255, 0), 10); // Green
       colorWipe(strip.Color(0, 0, 255), 10); // Blue
